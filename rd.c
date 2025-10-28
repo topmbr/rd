@@ -168,8 +168,47 @@ void cchessboard() {
     }
 }
 // 7. void x_mas() - украсить елку
+void x_mas()
+{
+    turn_left();
+    step();
+    turn_right();
+    while (right_is_clear())
+        step();
 
-                                                                                                    rd.c                                                                                                                  
+    while (right_is_blocked())
+    {
+        put_beeper();
+        turn_left();
+        step();
+        turn_right();
+        step();
+    }
+    put_beeper();
+    put_beeper();
+        step();
+    turn_right();
+    step();
+    turn_left();
+    put_beeper();
+    step();
+    while (right_is_clear())
+    {
+        turn_right();
+        step();
+        turn_left();
+        put_beeper();
+        step();
+    }
+
+    turn_back();
+    step();
+    pick_beeper();
+    turn_back();
+    while (front_is_clear())
+        step();
+}
+                                                                                                                                                                                                                  
 // 8. void divide_even_beepers() - разделить beepers пополам
 void ddivide_even_beepers() {
     // Поднимаемся на одну клетку
