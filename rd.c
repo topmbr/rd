@@ -55,19 +55,16 @@ void climb_stairs() {
     }
 
     while(front_is_blocked()) {
-        // Поднимаемся на ступеньку
         turn_left();
         while (right_is_blocked()) {
         step();
         }  
         turn_right();
         step();
-        // Собираем beeper если есть
         while(beepers_present()) {
             pick_beeper();
         }
 
-        // Идем вперед пока можем
         while(front_is_clear() && right_is_blocked()) {
             step();
             while(beepers_present()) {
@@ -83,20 +80,18 @@ void climb_stairs() {
 }
 // 5. void olympics() - прыгнуть через препятствия
 void olympics() {
-    while (no_beepers_present()) { // Kym Karel nenajde beeper
-        if (front_is_clear()) {    // Ak je pred nim volno
-            step();                // Urob krok vpred
+    while (no_beepers_present()) { 
+        if (front_is_clear()) {    
+            step();                
         }
-        else {                     // Ak narazi na prekazku (stenu)
-        turn_left();               // Preskoci ju pomocou funkcie jump_over
-        // Если слева есть препятствие - перепрыгиваем
+        else {                     
+        turn_left();              
     while (right_is_blocked()) {
         step();
     }
             turn_right();
             step();
 
-            // Спускаемся
             turn_right();
             while(front_is_clear()) {
                 step();
@@ -108,13 +103,11 @@ void olympics() {
 
 //6 void chessboard() - создать шахматную доску
 void cchessboard() {
-    // Начинаем с левого нижнего угла, идем вверх
     while(not_facing_north()) {
         turn_left();
     }
     
     while(true) {
-        // Заполняем колонку (четные клетки)
         while(front_is_clear()) {
             step();
             step();
@@ -124,13 +117,11 @@ void cchessboard() {
             }
         }
 
-        // Возвращаемся вниз
         turn_around();
         while(front_is_clear()) {
             step();
         }
 
-        // Переходим на следующую колонку
         turn_left();
         if(front_is_clear()) {
             step();
@@ -138,7 +129,6 @@ void cchessboard() {
             break;
         }
 
-        // Заполняем колонку (нечетные клетки)
         turn_left();
         if(front_is_clear()) {
             put_beeper();
@@ -153,13 +143,11 @@ void cchessboard() {
             }
         }
 
-        // Возвращаемся вниз
         turn_around();
         while(front_is_clear()) {
             step();
         }
 
-        // Переходим на следующую колонку
         turn_left();
         if(!front_is_clear()) {
             break;
@@ -211,46 +199,38 @@ void x_mas()
                                                                                                                                                                                                                   
 // 8. void divide_even_beepers() - разделить beepers пополам
 void ddivide_even_beepers() {
-    // Поднимаемся на одну клетку
     while(not_facing_north()) {
         turn_left();
     }
     step();
-    
-    // Переносим beepers по 2: один вверх, один вниз
     turn_around();
     step();
     
     while(beepers_present()) {
         pick_beeper();
 
-        // Относим один вверх
         turn_around();
         step();
         put_beeper();
 
-        // Возвращаемся
         turn_around();
         step();
 
-        // Берем второй
         if(beepers_present()) {
             pick_beeper();
-            // Оставляем внизу (ничего не делаем)
             put_beeper();
         }
     }
     
-    // Собираем половину с нижней позиции
-    pick_all();
+    while(beepers_present()) {
+        pick_beeper();
+    }
     
-    // Переходим на следующую позицию
     while(not_facing_east()) {
         turn_left();
     }
     step();
     
-    // Выкладываем половину
     while(beepers_in_bag()) {
         put_beeper();
     }
