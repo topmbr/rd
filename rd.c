@@ -50,34 +50,50 @@ bool facing_vertical() {
 
 // 4. void climb_stairs() 
 void climb_stairs() {
-    while (front_is_clear()){
-        step(); 
-    }
-
-    while(front_is_blocked()) {
-        turn_left();
-        while (right_is_blocked()) {
-        step();
-        }  
-        turn_right();
-        step();
-        while(beepers_present()) {
+    while (true) {
+        if (beepers_present()) {
             pick_beeper();
         }
-
-        while(front_is_clear() && right_is_blocked()) {
+        else if (right_is_clear() && facing_north()) {
+            turn_left();
+            turn_left();
+            turn_left();
             step();
-            while(beepers_present()) {
-                pick_beeper();
-            }
         }
-       if(front_is_clear() && right_is_clear()) {
-            turn_around();
+        else if (right_is_clear() && facing_east()) {
+            turn_left();
+            turn_left();
             step();
-            turn_around();
+            turn_left();
+            turn_left();
+
+            while (beepers_in_bag()) {
+                put_beeper();
+            }
+            return;
+        }
+        else if (front_is_clear()) {
+            step();
+        }
+        else if (front_is_blocked() && right_is_blocked() && not_facing_north()) {
+            turn_left();
+        }
+        else if (front_is_blocked() && right_is_blocked() && facing_north()) {
+            turn_left();
+            turn_left();
+            while (front_is_clear()) {
+                step();
+            }
+            turn_left();
+
+            while (beepers_in_bag()) {
+                put_beeper();
+            }
+            return;
         }
     }
 }
+
 // 5. void olympics() - прыгнуть через препятствия
 void olympics() {
     while (no_beepers_present()) { 
@@ -242,6 +258,42 @@ bool no_beepers() {
    return no_beepers_present() && no_beepers_in_bag();
 }
 
+
+bool no_beepers() {
+    bool result = true;
+
+    while (front_is_clear()) {
+        if (beepers_present()) {
+            result = false;
+        }
+        step();
+    }
+    turn_left();
+        turn_left();
+
+    while (front_is_clear()) {
+        move();
+    }
+    turn_left();
+
+    while (front_is_clear()) {
+        while (front_is_clear()) {
+            if (beepers_present()) {
+                result = false;
+            }
+            step();
+        }
+        turn_around();
+        while (front_is_clear()) {
+            step();
+        }
+        turn_left();
+    }
+
+    return result;
+}
+
+
 //10. void find_center() - найти центр мира
 void go_to_center() {
     while (not_facing_south()) {
@@ -293,6 +345,51 @@ void turn_to_south() {
         turn_left();
     }
 }
+
+void move_beepers() {
+    while(beepers_present()) {
+        pick_beeper();
+
+        while(front_is_clear()) {
+            step();
+        }
+
+        put_beeper();
+
+        turn_around();
+        while(front_is_clear()) {
+            step();
+        }
+        turn_around();
+    }
+    
+F    while(front_is_clear()) {
+        step();
+    }
+}
+
+void find_north_west() {
+    while (not_facing_north()) {
+        turn_left();
+    }
+    
+    while (front_is_clear()) {
+        step();
+    }
+    
+    while (not_facing_west()) {
+        turn_left();
+    }
+    
+    while (front_is_clear()) {
+        step();
+    }
+    
+    while (not_facing_east()) {
+        turn_left();
+    }
+}
+
 //////////////////////////////////////////////////////
 
 
